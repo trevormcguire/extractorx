@@ -1,7 +1,11 @@
 import json
 from typing import Optional, Union
+import urllib3
 
 import requests
+
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class ExtractorX(object):
@@ -14,14 +18,15 @@ class ExtractorX(object):
         self.key = key
         self.api_endpoint = "https://extractorx.com/api"
         self.headers = {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         }
     
     def _call_api(self, data: dict) -> dict:
         r = requests.post(
             self.api_endpoint,
             headers=self.headers,
-            data=json.dumps(data)
+            data=json.dumps(data),
+            verify=False
         )
         return r.json()
 
